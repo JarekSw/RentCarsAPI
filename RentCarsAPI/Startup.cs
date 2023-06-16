@@ -45,6 +45,7 @@ namespace RentCarsAPI
             services.AddScoped<ICarService,CarService>();
             services.AddScoped<IClientService,ClientService>();
             services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IHireService,HireService>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<IValidator<CreateCarDto>, CreateCarValidator>();
             services.AddScoped<IValidator<CreateClientDto>, CreateClientValidator>();
