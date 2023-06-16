@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RentCarsAPI.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,14 @@ namespace RentCarsAPI
         {
             if(_dbContext.Database.CanConnect())
             {
+
+                var pandingMigrations= _dbContext.Database.GetPendingMigrations();
+
+                if(pandingMigrations != null && pandingMigrations.Any()) 
+                {
+                    _dbContext.Database.Migrate();
+                }
+
                if(!_dbContext.Clients.Any())
                 {
                     var roles = GetClients();

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RentCarsAPI.Entities;
+using RentCarsAPI.Models.Car;
 using System.Linq;
 
 namespace RentCarsAPI.Models.Validators

@@ -1,8 +1,7 @@
-﻿namespace RentCarsAPI.Models
+﻿namespace RentCarsAPI.Models.Client
 {
-    public class ClientDto
+    public class CreateClientDto
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PESELOrPassportNumber { get; set; }

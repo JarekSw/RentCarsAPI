@@ -1,7 +1,7 @@
 ﻿using RentCarsAPI.Entities;
 using System;
 
-namespace RentCarsAPI.Models
+namespace RentCarsAPI.Models.Car
 {
     public class HireDto
     {
@@ -34,8 +34,8 @@ namespace RentCarsAPI.Models
         public string PhoneNumber { get; set; }
 
         //
-       
 
-        
+
+
     }
 }

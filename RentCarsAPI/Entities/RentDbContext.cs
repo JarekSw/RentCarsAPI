@@ -7,8 +7,12 @@ namespace RentCarsAPI.Entities
 {
     public class RentDbContext:DbContext
     {
-        private string _connectionString =
-           "Server=(localdb)\\mssqllocaldb;Database=RentDb;Trusted_Connection=True;";
+        public RentDbContext(DbContextOptions<RentDbContext> options):base(options)
+        {
+            
+        }
+        //private string _connectionString =
+        //   "Server=(localdb)\\mssqllocaldb;Database=RentDb;Trusted_Connection=True;";
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -94,9 +98,6 @@ namespace RentCarsAPI.Entities
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
-        }
+
     }
 }

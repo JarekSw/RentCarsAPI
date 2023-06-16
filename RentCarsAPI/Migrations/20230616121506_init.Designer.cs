@@ -10,8 +10,8 @@ using RentCarsAPI.Entities;
 namespace RentCarsAPI.Migrations
 {
     [DbContext(typeof(RentDbContext))]
-    [Migration("20230530161531_Init")]
-    partial class Init
+    [Migration("20230616121506_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,6 @@ namespace RentCarsAPI.Migrations
                     b.Property<bool>("AutomaticTransmission")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("AvailableNow")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,6 +40,9 @@ namespace RentCarsAPI.Migrations
 
                     b.Property<int>("CountPlace")
                         .HasColumnType("int");
+
+                    b.Property<bool>("EfficientNow")
+                        .HasColumnType("bit");
 
                     b.Property<double>("Horsepower")
                         .HasColumnType("float");
@@ -136,6 +136,9 @@ namespace RentCarsAPI.Migrations
                     b.Property<DateTime>("DateOfReturn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("ExpectedDateOfReturn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime2");
 
@@ -171,13 +174,13 @@ namespace RentCarsAPI.Migrations
             modelBuilder.Entity("RentCarsAPI.Entities.Hire", b =>
                 {
                     b.HasOne("RentCarsAPI.Entities.Car", "Car")
-                        .WithMany()
+                        .WithMany("Hires")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RentCarsAPI.Entities.Client", "Client")
-                        .WithMany()
+                        .WithMany("Hires")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -185,6 +188,16 @@ namespace RentCarsAPI.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("RentCarsAPI.Entities.Car", b =>
+                {
+                    b.Navigation("Hires");
+                });
+
+            modelBuilder.Entity("RentCarsAPI.Entities.Client", b =>
+                {
+                    b.Navigation("Hires");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,4 @@
-﻿namespace RentCarsAPI.Models
+﻿namespace RentCarsAPI.Models.Car
 {
     public class CarDto
     {

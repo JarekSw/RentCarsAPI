@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentCarsAPI.Models;
+using RentCarsAPI.Models.Car;
 using RentCarsAPI.Services;
 using System.Collections.Generic;
 

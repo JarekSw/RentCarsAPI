@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentCarsAPI.Entities;
 using RentCarsAPI.Exceptions;
-using RentCarsAPI.Models;
+using RentCarsAPI.Models.Car;
 using System.Collections.Generic;
 using System.Linq;
 
