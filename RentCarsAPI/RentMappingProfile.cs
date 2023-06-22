@@ -27,6 +27,7 @@ namespace RentCarsAPI
 
             CreateMap<Hire, HireDto>()
                 .ForMember(h => h.FirstName, x => x.MapFrom(m => m.Client.FirstName))
+
                 .ForMember(h => h.LastName, x => x.MapFrom(m => m.Client.LastName))
                 .ForMember(h => h.PESELOrPassportNumber, x => x.MapFrom(m => m.Client.PESELOrPassportNumber))
                 .ForMember(h => h.CarMark, x => x.MapFrom(m => m.Car.Mark))

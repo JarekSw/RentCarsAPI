@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RentCarsAPI.Entities;
 using RentCarsAPI.Exceptions;
 using RentCarsAPI.Models.Hire;
@@ -25,10 +26,15 @@ namespace RentCarsAPI.Services
 
         public IEnumerable<HireDto> GetAll()
         {
-            var hires = _dbContext.Hires.ToList();
+            var hires = _dbContext.Hires
+                .Include(h=>h.Car)
+                .Include(h=>h.Client)
+                .ToList();
 
             if (hires is null)
                 throw new NotFoundException("Hires not found");
+
+
 
             var hireDtos = _mapper.Map<List<HireDto>>(hires);
 

@@ -51,11 +51,22 @@ namespace RentCarsAPI
             services.AddScoped<IValidator<CreateClientDto>, CreateClientValidator>();
             services.AddScoped<IValidator<CreateUserDto>, CreateUserValidator>();
             services.AddSwaggerGen();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("FrontendClient", builder =>
+                {
+                    builder.AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RentSeeder seeder)
         {
+
+            app.UseCors("FrontendClient");
             seeder.Seed();
             if (env.IsDevelopment())
             {
