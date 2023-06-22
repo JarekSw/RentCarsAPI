@@ -54,11 +54,11 @@ namespace RentCarsAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("FrontendClient", builder =>
-                {
+                
                     builder.AllowAnyMethod()
                             .AllowAnyHeader()
-                            .AllowAnyHeader();
-                });
+                            .AllowAnyHeader()
+                );
             });
         }
 
