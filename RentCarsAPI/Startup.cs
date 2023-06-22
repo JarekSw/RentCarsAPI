@@ -57,7 +57,7 @@ namespace RentCarsAPI
                 
                     builder.AllowAnyMethod()
                             .AllowAnyHeader()
-                            .AllowAnyHeader()
+                            .AllowAnyOrigin()
                 );
             });
         }
