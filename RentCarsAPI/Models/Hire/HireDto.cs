@@ -7,10 +7,13 @@ namespace RentCarsAPI.Models.Hire
     {
         public int Id { get; set; }
 
+        public int CarId { get; set; }
         public string CarMark { get; set; }
         public string CarModel { get; set; }
         
         public string RegistrationNumber { get; set; }
+
+        public int ClientId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PESELOrPassportNumber { get; set; }
