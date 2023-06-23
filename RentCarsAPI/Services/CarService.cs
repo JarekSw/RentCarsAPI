@@ -87,9 +87,12 @@ namespace RentCarsAPI.Services
         public IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model)
         {
             var cars=GetAll();
-            var carsDtos=_mapper.Map<List<CarDto>>(cars); 
+            var carsDtos=_mapper.Map<List<CarDto>>(cars);
 
-            if(isAvailable != null) 
+            if (carsDtos is null)
+                throw new NotFoundException("Cars not exist");
+
+            if (isAvailable != null) 
             {
                 carsDtos =(List<CarDto>) GetByAvailable((bool)isAvailable,carsDtos);
             }

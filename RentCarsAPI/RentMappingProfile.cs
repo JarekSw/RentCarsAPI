@@ -12,11 +12,11 @@ namespace RentCarsAPI
 
         public RentMappingProfile()
         {
+            CreateMap<CreateHireDto, Hire>();
 
 
-
-            CreateMap<Car, CarDto>()
-                .ForMember(c => c.AvailableNow, h => h.MapFrom(s =>s.EfficientNow));
+            CreateMap<Car, CarDto>();
+                
 
             CreateMap<CreateCarDto, Car>();
 

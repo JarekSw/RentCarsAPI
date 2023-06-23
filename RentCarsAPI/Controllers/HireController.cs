@@ -2,6 +2,8 @@
 using RentCarsAPI.Models.Hire;
 using RentCarsAPI.Services;
 using System.Collections.Generic;
+using System.Security.Policy;
+using System;
 
 namespace RentCarsAPI.Controllers
 {
@@ -14,6 +16,58 @@ namespace RentCarsAPI.Controllers
         public HireController(IHireService service)
         {
               _hireService=service;
+        }
+
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute] int id)
+        {
+            _hireService.Delete(id);
+
+            return NoContent();
+        }
+
+        [HttpGet("filtr")]
+        public ActionResult<IEnumerable<HireDto>> GetByFiltr([FromHeader]bool? isFinished, [FromHeader]int? clientId, [FromHeader]int? carId) 
+        {
+            var hireDtos = _hireService.GetByFiltr(isFinished, clientId, carId);
+
+            return Ok(hireDtos);
+
+        }
+
+
+        [HttpGet("finish/{id}")]
+        public ActionResult<double> Finish([FromRoute] int id,[FromBody]FinishHireDto dateOfReturn)
+        {
+            double price = _hireService.Finish(id, dateOfReturn);
+
+            return Ok(price);
+        }
+
+
+        [HttpPost]
+        public ActionResult Create([FromBody] CreateHireDto createHireDto)
+        {
+            int newId =_hireService.Create(createHireDto);
+
+            return Created($"api/hires/{newId}", null);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update([FromRoute]int id, [FromBody]UpdateHireDto update)
+        {
+            _hireService.Update(id, update);
+
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<List<HireDto>> GetById([FromRoute]int id)
+        {
+            var hireDto = _hireService.GetById(id);
+
+            return Ok(hireDto);
         }
 
         [HttpGet]

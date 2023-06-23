@@ -1,4 +1,6 @@
-﻿namespace RentCarsAPI.Models.Car
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RentCarsAPI.Models.Car
 {
     public class CarDto
     {
@@ -12,7 +14,8 @@
         public int CountPlace { get; set; }
         public string Category { get; set; }
         public bool EfficientNow { get; set; }
-        public bool? AvailableNow { get; set; }
+        [Required]
+        public bool AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }
     }

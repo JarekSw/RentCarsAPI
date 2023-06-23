@@ -41,7 +41,7 @@ namespace RentCarsAPI.Controllers
             return Created($"api/cars/{newId}", null);
         }
 
-
+        //filtr po blokowaniu
         [HttpGet("filtr")]
         public ActionResult<IEnumerable<ClientDto>> GetByBlocked([FromHeader] bool IsBlocked)
         {

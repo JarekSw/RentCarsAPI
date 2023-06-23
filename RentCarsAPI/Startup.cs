@@ -14,6 +14,7 @@ using RentCarsAPI.Entities;
 using RentCarsAPI.Middleware;
 using RentCarsAPI.Models.Car;
 using RentCarsAPI.Models.Client;
+using RentCarsAPI.Models.Hire;
 using RentCarsAPI.Models.User;
 using RentCarsAPI.Models.Validators;
 using RentCarsAPI.Services;
@@ -50,6 +51,7 @@ namespace RentCarsAPI
             services.AddScoped<IValidator<CreateCarDto>, CreateCarValidator>();
             services.AddScoped<IValidator<CreateClientDto>, CreateClientValidator>();
             services.AddScoped<IValidator<CreateUserDto>, CreateUserValidator>();
+            services.AddScoped<IValidator<CreateHireDto>, CreateHireValidator>();
             services.AddSwaggerGen();
             services.AddCors(options =>
             {

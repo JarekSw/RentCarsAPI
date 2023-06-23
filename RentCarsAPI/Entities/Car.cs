@@ -14,6 +14,7 @@ namespace RentCarsAPI.Entities
         public int CountPlace { get; set; }
         public string Category { get; set; }
         public bool EfficientNow { get; set; } //Czy jest sprawne
+        public bool? AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }
 
