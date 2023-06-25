@@ -10,7 +10,7 @@ namespace RentCarsAPI.Services
     public interface ICarService
     {
         IEnumerable<CarDto> GetAll();
-        IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model);
+        IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model, string? mark);
 
         CarDto GetById(int id);
         int Create(CreateCarDto dto);
@@ -78,7 +78,7 @@ namespace RentCarsAPI.Services
 
             return carDto;
         }
-        public IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model)
+        public IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model, string? mark)
         {
             var cars = GetAll();
             var carsDtos = _mapper.Map<List<CarDto>>(cars);
@@ -93,6 +93,10 @@ namespace RentCarsAPI.Services
             if (countPlace != null)
             {
                 carsDtos = (List<CarDto>)GetByCountPlace((int)countPlace, carsDtos);
+            }
+            if (mark != null)
+            {
+                carsDtos = (List<CarDto>)GetByMark((string)mark, carsDtos);
             }
             if (model != null)
             {
@@ -113,6 +117,17 @@ namespace RentCarsAPI.Services
             foreach (CarDto item in carDtos)
             {
                 if (item.Model.ToLower() == model.ToLower())
+                    cars.Add(item);
+            }
+            return cars;
+        }
+        public IEnumerable<CarDto> GetByMark(string mark, List<CarDto> carDtos)
+        {
+            List<CarDto> cars = new List<CarDto>();
+
+            foreach (CarDto item in carDtos)
+            {
+                if (item.Mark.ToLower() == mark.ToLower())
                     cars.Add(item);
             }
             return cars;

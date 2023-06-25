@@ -58,9 +58,10 @@ namespace RentCarsAPI.Controllers
         //filt możliwy po dostępności, ilości miejsc i po marce
         [HttpGet]
         [Route("filtr")]
-        public ActionResult<IEnumerable<CarDto>> GetBy([FromHeader] bool? isAvailable, [FromHeader] int? countPlace, [FromHeader] string? mark)
+        public ActionResult<IEnumerable<CarDto>> GetBy([FromHeader] bool? isAvailable, [FromHeader] int? countPlace,
+            [FromHeader] string? model, [FromHeader]string? mark)
         {
-            var carDtos = _carService.GetBy(isAvailable, countPlace, mark);
+            var carDtos = _carService.GetBy(isAvailable, countPlace,model, mark);
 
             return Ok(carDtos);
         }
