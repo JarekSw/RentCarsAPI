@@ -116,30 +116,11 @@ namespace RentCarsAPI.Services
         {
             var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == id);
             hire.DateOfReturn = date.DateOfReturn;
-            var dateOfReturn = date.DateOfReturn;
+            
             _dbContext.Cars.FirstOrDefault(c => c.Id == hire.CarId).EfficientNow = true;
-
-            var hireData = (DateTime)hire.HireDate;
-            var expectedDateOfRetuen = (DateTime)hire.ExpectedDateOfReturn;
-
-            double day = (expectedDateOfRetuen - hireData).TotalDays;
-
-            double price = hire.Car.PriceForDay * day;
-
-            //zniżka za wcześniejsze zwrócenie
-            if (hire.DateOfReturn < hire.ExpectedDateOfReturn)
-            {
-                price = price - (expectedDateOfRetuen - dateOfReturn).TotalDays * 0.5;
-            }
-            //kara za opoznienie
-            if (hire.DateOfReturn > hire.ExpectedDateOfReturn)
-            {
-                price = price - (dateOfReturn - expectedDateOfRetuen).TotalDays * 2.5;
-            }
-
             _dbContext.SaveChanges();
 
-            return price;
+            return CalculatePrice(hire);
         }
         public int Create(CreateHireDto dto)
         {
@@ -209,6 +190,22 @@ namespace RentCarsAPI.Services
             hireDtos.Sort();
 
             return hireDtos;
+        }
+
+        public static double CalculatePrice(Hire dto)
+        {
+            double days = (dto.ExpectedDateOfReturn - dto.HireDate).TotalDays;
+            double price = days*dto.Car.PriceForDay;
+
+            if(dto.DateOfReturn!=null)
+            {
+                if (dto.ExpectedDateOfReturn < dto.DateOfReturn)
+                    price += ((DateTime)dto.DateOfReturn - dto.ExpectedDateOfReturn).TotalDays * dto.Car.PriceForDay*2.5;
+                if (dto.ExpectedDateOfReturn > dto.DateOfReturn)
+                    price -= (dto.ExpectedDateOfReturn - (DateTime)dto.DateOfReturn).TotalDays * dto.Car.PriceForDay * 0.5;
+            }    
+
+            return price;
         }
     }
 }

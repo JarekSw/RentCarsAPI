@@ -4,6 +4,7 @@ using RentCarsAPI.Models.Car;
 using RentCarsAPI.Models.Client;
 using RentCarsAPI.Models.Hire;
 using RentCarsAPI.Models.User;
+using RentCarsAPI.Services;
 
 namespace RentCarsAPI
 {
@@ -27,8 +28,9 @@ namespace RentCarsAPI
                 .ForMember(h => h.CarModel, x => x.MapFrom(m => m.Car.Model))
                 .ForMember(h => h.RegistrationNumber, x => x.MapFrom(m => m.Car.RegistrationNumber))
                 //refactor
-                .ForMember(h => h.Status, x => x.MapFrom(dto =>test(dto)));
+                .ForMember(h => h.Status, x => x.MapFrom(dto => test(dto)))
                 //
+                .ForMember(h => h.Price, x => x.MapFrom(dto => HireService.CalculatePrice(dto)));
         }
 
         public HireStatus test(Hire hire)
