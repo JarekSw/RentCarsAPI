@@ -17,8 +17,6 @@ namespace RentCarsAPI.Entities
         public bool? AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }
-
-        public virtual List<Hire> Hires{get; set ;}
-
+        public virtual List<Hire> Hires { get; set; }
     }
 }

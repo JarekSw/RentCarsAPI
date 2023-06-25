@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RentCarsAPI.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace RentCarsAPI
 {
@@ -15,40 +12,39 @@ namespace RentCarsAPI
 
         public RentSeeder(RentDbContext dbContext)
         {
-                _dbContext = dbContext;
+            _dbContext = dbContext;
         }
-
         public void Seed()
         {
-            if(_dbContext.Database.CanConnect())
+            if (_dbContext.Database.CanConnect())
             {
 
-                var pandingMigrations= _dbContext.Database.GetPendingMigrations();
+                var pandingMigrations = _dbContext.Database.GetPendingMigrations();
 
-                if(pandingMigrations != null && pandingMigrations.Any()) 
+                if (pandingMigrations != null && pandingMigrations.Any())
                 {
                     _dbContext.Database.Migrate();
                 }
 
-               if(!_dbContext.Clients.Any())
+                if (!_dbContext.Clients.Any())
                 {
                     var roles = GetClients();
                     _dbContext.AddRange(roles);
                     _dbContext.SaveChanges();
                 }
-                if(!_dbContext.Cars.Any())
+                if (!_dbContext.Cars.Any())
                 {
                     var roles = GetCars();
                     _dbContext.AddRange(roles);
                     _dbContext.SaveChanges();
                 }
-                if(!_dbContext.Hires.Any())
+                if (!_dbContext.Hires.Any())
                 {
                     var roles = GetHires();
                     _dbContext.AddRange(roles);
                     _dbContext.SaveChanges();
                 }
-                if(!_dbContext.Users.Any())
+                if (!_dbContext.Users.Any())
                 {
                     var roles = GetUser();
                     _dbContext.AddRange(roles);
@@ -69,7 +65,7 @@ namespace RentCarsAPI
         private IEnumerable<Car> GetCars()
         {
             var result = new List<Car>()
-            {             
+            {
                 new Car()
                 {
                     RegistrationNumber="Test324",
@@ -92,7 +88,7 @@ namespace RentCarsAPI
         {
             var result = new List<Client>()
             {
-                
+
                 new Client()
                 {
                     FirstName="Jan",
@@ -155,7 +151,7 @@ namespace RentCarsAPI
                         Category="B",
                         EfficientNow=true,
                         AvailableNow=false
-                        
+
                     },
                     Client=new Client()
                     {

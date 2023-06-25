@@ -3,10 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using RentCarsAPI.Entities;
 using RentCarsAPI.Exceptions;
 using RentCarsAPI.Models.Hire;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using RentCarsAPI.Models.Car;
 
 namespace RentCarsAPI.Services
 {
@@ -16,12 +15,10 @@ namespace RentCarsAPI.Services
         void Update(int HireId, UpdateHireDto dto);
         HireDto GetById(int id);
         int Create(CreateHireDto dto);
-
         double Finish(int id, FinishHireDto dateOfReturn);
         List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId);
         void Delete(int id);
     }
-
     public class HireService : IHireService
     {
         private readonly RentDbContext _dbContext;
@@ -32,10 +29,9 @@ namespace RentCarsAPI.Services
             _dbContext = dbContext;
             _mapper = mapper;
         }
-
-        public void Delete (int id)
+        public void Delete(int id)
         {
-            var hire =_dbContext.Hires.FirstOrDefault(h=> h.Id == id);
+            var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == id);
 
             if (hire is null)
                 throw new NotFoundException("Hire not found");
@@ -49,16 +45,15 @@ namespace RentCarsAPI.Services
                 .Include(h => h.Car)
                 .Include(h => h.Client)
                 .ToList();
-            
+
             if (hires is null)
                 throw new NotFoundException("Hires not exist");
 
-
-            if(isFinished!=null)
+            if (isFinished != null)
             {
                 hires = GetByIsFinished((bool)isFinished, hires);
             }
-            if (clientId !=null)
+            if (clientId != null)
             {
                 hires = GetByClientId((int)clientId, hires);
             }
@@ -67,12 +62,12 @@ namespace RentCarsAPI.Services
                 hires = GetBycarId((int)carId, hires);
             }
 
-
-            if (hires.Count==0)
+            if (hires.Count == 0)
                 throw new NotFoundException("Hires with this filtr not found");
 
-          
-            var hireDtos=_mapper.Map<List<HireDto>>(hires);
+            var hireDtos = _mapper.Map<List<HireDto>>(hires);
+
+            hireDtos.Sort();
 
             return hireDtos;
         }
@@ -93,52 +88,46 @@ namespace RentCarsAPI.Services
 
             foreach (var hire in hires)
             {
-               if(hire.ClientId== clientId)
+                if (hire.ClientId == clientId)
                     result.Add(hire);
             }
             return result;
         }
-
-
         public List<Hire> GetByIsFinished(bool isFinished, List<Hire> hires)
         {
             List<Hire> result = new List<Hire>();
 
-            foreach(var hire in hires)
+            foreach (var hire in hires)
             {
-                if(hire.DateOfReturn == null)
+                if (hire.DateOfReturn == null)
                 {
                     if (isFinished == false)
                         result.Add(hire);
                 }
                 else
                 {
-                    if(isFinished==true)
+                    if (isFinished == true)
                         result.Add(hire);
-                }   
+                }
             }
             return result;
         }
         public double Finish(int id, FinishHireDto date)
         {
-            var hire = _dbContext.Hires.FirstOrDefault(h=>h.Id == id);
+            var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == id);
             hire.DateOfReturn = date.DateOfReturn;
             var dateOfReturn = date.DateOfReturn;
-            _dbContext.Cars.FirstOrDefault(c=>c.Id==hire.CarId).EfficientNow = true;
+            _dbContext.Cars.FirstOrDefault(c => c.Id == hire.CarId).EfficientNow = true;
 
             var hireData = (DateTime)hire.HireDate;
             var expectedDateOfRetuen = (DateTime)hire.ExpectedDateOfReturn;
 
-
-
-
-
-            double day = ( expectedDateOfRetuen - hireData).TotalDays;
+            double day = (expectedDateOfRetuen - hireData).TotalDays;
 
             double price = hire.Car.PriceForDay * day;
 
             //zniżka za wcześniejsze zwrócenie
-            if (hire.DateOfReturn<hire.ExpectedDateOfReturn)
+            if (hire.DateOfReturn < hire.ExpectedDateOfReturn)
             {
                 price = price - (expectedDateOfRetuen - dateOfReturn).TotalDays * 0.5;
             }
@@ -154,27 +143,9 @@ namespace RentCarsAPI.Services
         }
         public int Create(CreateHireDto dto)
         {
-            //var car =_dbContext.Cars.FirstOrDefault(c=>c.Id==dto.CarId);
-
-            //if(car is null)
-            //    throw new NotFoundException("Car not found");
-            //if(car.EfficientNow==false)
-            //    throw new NotFoundException("Car is not efficient now");
-            //if (car.AvailableNow == false)
-            //    throw new NotFoundException("Car is not available now");
-
-            //var client=_dbContext.Clients.FirstOrDefault(c=>c.Id == dto.ClientId);
-
-            //if(client is null)
-            //    throw new NotFoundException("Car not found");
-
-            //if(client.IsBlocked== true)
-            //    throw new NotFoundException("Client is blocked");
-
-
-            if(dto.HireDate>dto.ExpectedDateOfReturn)
+            if (dto.HireDate > dto.ExpectedDateOfReturn)
                 throw new NotFoundException("Bad hire or expected date of return");
-            if(dto.HireDate>dto.DateOfReturn)
+            if (dto.HireDate > dto.DateOfReturn)
                 throw new NotFoundException("Bad hire or date of return");
 
             var hireEntities = _mapper.Map<Hire>(dto);
@@ -192,19 +163,19 @@ namespace RentCarsAPI.Services
         }
         public void Update(int HireId, UpdateHireDto dto)
         {
-            var hire=_dbContext.Hires.FirstOrDefault(h=>h.Id == HireId);
+            var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == HireId);
 
-            if(hire is null)
+            if (hire is null)
             {
                 throw new NotFoundException("Hire not found");
             }
 
-            if(dto.DateOfReturn != null)
+            if (dto.DateOfReturn != null)
             {
                 hire.DateOfReturn = (System.DateTime)dto.DateOfReturn;
             }
-                
-            if(dto.Comment != null)
+
+            if (dto.Comment != null)
                 hire.Comment = dto.Comment;
 
             _dbContext.SaveChanges();
@@ -214,12 +185,10 @@ namespace RentCarsAPI.Services
             var hire = _dbContext.Hires
                 .Include(h => h.Car)
                 .Include(h => h.Client)
-                .FirstOrDefault(h=>h.Id==id);
+                .FirstOrDefault(h => h.Id == id);
 
             if (hire is null)
                 throw new NotFoundException("Hire not found");
-
-
 
             var hireDto = _mapper.Map<HireDto>(hire);
 
@@ -228,16 +197,16 @@ namespace RentCarsAPI.Services
         public IEnumerable<HireDto> GetAll()
         {
             var hires = _dbContext.Hires
-                .Include(h=>h.Car)
-                .Include(h=>h.Client)
+                .Include(h => h.Car)
+                .Include(h => h.Client)
                 .ToList();
 
             if (hires is null)
                 throw new NotFoundException("Hires not found");
 
-
-
             var hireDtos = _mapper.Map<List<HireDto>>(hires);
+
+            hireDtos.Sort();
 
             return hireDtos;
         }

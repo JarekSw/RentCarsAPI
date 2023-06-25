@@ -5,18 +5,22 @@ using System.Linq;
 
 namespace RentCarsAPI.Models.Validators
 {
-    public class CreateClientValidator: AbstractValidator<CreateClientDto>
+    public class CreateClientValidator : AbstractValidator<CreateClientDto>
     {
         public CreateClientValidator(RentDbContext dbContext)
         {
             RuleFor(c => c.FirstName)
              .NotEmpty();
+
             RuleFor(c => c.LastName)
                 .NotEmpty();
+
             RuleFor(c => c.PESELOrPassportNumber)
                 .NotEmpty();
+
             RuleFor(c => c.PhoneNumber)
                 .NotEmpty();
+
             RuleFor(c => c.email)
                 .NotEmpty();
 

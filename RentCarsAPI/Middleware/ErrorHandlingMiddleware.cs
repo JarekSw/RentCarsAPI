@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System;
 using RentCarsAPI.Exceptions;
+using System;
+using System.Threading.Tasks;
 
 namespace RentCarsAPI.Middleware
 {

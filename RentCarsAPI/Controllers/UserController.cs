@@ -6,7 +6,7 @@ namespace RentCarsAPI.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UserController:ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -16,7 +16,7 @@ namespace RentCarsAPI.Controllers
         }
 
         [HttpPut("{email}")]
-        public ActionResult Update([FromRoute] string email, [FromBody] UpdateUserDto dto) 
+        public ActionResult Update([FromRoute] string email, [FromBody] UpdateUserDto dto)
         {
             _userService.Update(email, dto);
 
@@ -32,17 +32,17 @@ namespace RentCarsAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserDto> GetById([FromRoute]int id) 
+        public ActionResult<UserDto> GetById([FromRoute] int id)
         {
-            var user=_userService.GetById(id);
+            var user = _userService.GetById(id);
 
             return Ok(user);
         }
 
         [HttpPost]
-        public ActionResult Create([FromBody]CreateUserDto userDto) 
+        public ActionResult Create([FromBody] CreateUserDto userDto)
         {
-            var newId=_userService.Create(userDto);
+            var newId = _userService.Create(userDto);
 
             return Created($"api/users/{newId}", null);
         }

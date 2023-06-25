@@ -16,15 +16,13 @@ namespace RentCarsAPI.Controllers
             _carService = carService;
         }
 
-
-        [HttpDelete("{id}")] 
-        public ActionResult DeleteCar([FromRoute]int id)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCar([FromRoute] int id)
         {
             _carService.Delete(id);
 
             return NoContent();
         }
-
 
         [HttpPut("{id}")]
         public ActionResult Update([FromRoute] int id, [FromBody] UpdateCarDto updateCarDto)
@@ -42,9 +40,8 @@ namespace RentCarsAPI.Controllers
             return Created($"api/cars/{newCarId}", null);
         }
 
-
         [HttpGet("{id}")]
-        public ActionResult<CarDto> GetById([FromRoute ]int id) 
+        public ActionResult<CarDto> GetById([FromRoute] int id)
         {
             var carDto = _carService.GetById(id);
 
@@ -54,20 +51,18 @@ namespace RentCarsAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CarDto>> GetAll()
         {
-            var carDtos= _carService.GetAll();
+            var carDtos = _carService.GetAll();
             return Ok(carDtos);
         }
 
         //filt możliwy po dostępności, ilości miejsc i po marce
         [HttpGet]
         [Route("filtr")]
-        public ActionResult<IEnumerable<CarDto>> GetBy([FromHeader]bool? isAvailable, [FromHeader] int? countPlace, [FromHeader]string? mark)
+        public ActionResult<IEnumerable<CarDto>> GetBy([FromHeader] bool? isAvailable, [FromHeader] int? countPlace, [FromHeader] string? mark)
         {
-            var carDtos = _carService.GetBy(isAvailable,countPlace,mark);
+            var carDtos = _carService.GetBy(isAvailable, countPlace, mark);
 
             return Ok(carDtos);
         }
-
-     
     }
 }

@@ -14,18 +14,16 @@ namespace RentCarsAPI.Services
         void Delete(int id);
         void Update(string emial, UpdateUserDto userDto);
     }
-
     public class UserService : IUserService
     {
         private readonly RentDbContext _dbContext;
         private readonly IMapper _mapper;
-
         public UserService(RentDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public void Update(string emial, UpdateUserDto userDto) 
+        public void Update(string emial, UpdateUserDto userDto)
         {
             var user = _dbContext.Users.FirstOrDefault(x => x.Email == emial);
 
@@ -35,13 +33,12 @@ namespace RentCarsAPI.Services
             user.HashPassword = userDto.HashPassword;
 
             _dbContext.SaveChanges();
-
         }
         public void Delete(int id)
         {
             var users = _dbContext.Users.ToList();
 
-            if (users.Count ==1)
+            if (users.Count == 1)
                 throw new NotFoundException("Only one user!");
 
             var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
@@ -61,7 +58,6 @@ namespace RentCarsAPI.Services
 
             return user.Id;
         }
-
         public UserDto GetById(int id)
         {
             var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
@@ -73,6 +69,5 @@ namespace RentCarsAPI.Services
 
             return userDto;
         }
-
     }
 }

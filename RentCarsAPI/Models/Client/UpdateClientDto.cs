@@ -3,7 +3,6 @@
     public class UpdateClientDto
     {
         public string? LastName { get; set; }
-
         public string? email { get; set; }
         public string? PhoneNumber { get; set; }
         public string? DrivingLicenseCategory { get; set; }

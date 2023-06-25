@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using RentCarsAPI.Entities;
 using RentCarsAPI.Exceptions;
 using RentCarsAPI.Models.Car;
@@ -18,7 +17,6 @@ namespace RentCarsAPI.Services
         void Update(int id, UpdateCarDto dto);
         void Delete(int id);
     }
-    
     public class CarService : ICarService
     {
         private readonly IMapper _mapper;
@@ -29,11 +27,9 @@ namespace RentCarsAPI.Services
             _mapper = mapper;
             _dbContext = dbContext;
         }
-
-
         public void Delete(int id)
         {
-            var car = _dbContext.Cars.FirstOrDefault(c => c.Id== id);
+            var car = _dbContext.Cars.FirstOrDefault(c => c.Id == id);
 
             if (car is null)
                 throw new NotFoundException("Cars not found");
@@ -41,17 +37,15 @@ namespace RentCarsAPI.Services
             _dbContext.Remove(car);
             _dbContext.SaveChanges();
         }
-
         public void Update(int id, UpdateCarDto dto)
         {
             var car = _dbContext.Cars.FirstOrDefault(c => c.Id == id);
 
-            if ( car is null)
+            if (car is null)
                 throw new NotFoundException("Cars not found");
-        
 
             if (dto.PriceForDay != null)
-                car.PriceForDay = (double)dto.PriceForDay; 
+                car.PriceForDay = (double)dto.PriceForDay;
             if (dto.RegistrationNumber != null)
                 car.RegistrationNumber = (string)dto.RegistrationNumber;
             if (dto.EfficientNow != null)
@@ -60,11 +54,10 @@ namespace RentCarsAPI.Services
                 car.Comments = (string)dto.Comments;
 
             _dbContext.SaveChanges();
-
         }
         public int Create(CreateCarDto dto)
         {
-            var carEntities= _mapper.Map<Car>(dto);
+            var carEntities = _mapper.Map<Car>(dto);
 
             var newCarId = carEntities.Id;
 
@@ -75,76 +68,70 @@ namespace RentCarsAPI.Services
         }
         public CarDto GetById(int id)
         {
-            var car=_dbContext.Cars.FirstOrDefault(c=>c.Id==id);
-            var carDto=_mapper.Map<CarDto>(car);
+            var car = _dbContext.Cars.FirstOrDefault(c => c.Id == id);
+            var carDto = _mapper.Map<CarDto>(car);
 
             if (carDto is null)
                 throw new NotFoundException("Cars not found");
 
             return carDto;
         }
-
         public IEnumerable<CarDto> GetBy(bool? isAvailable, int? countPlace, string? model)
         {
-            var cars=GetAll();
-            var carsDtos=_mapper.Map<List<CarDto>>(cars);
+            var cars = GetAll();
+            var carsDtos = _mapper.Map<List<CarDto>>(cars);
 
             if (carsDtos is null)
                 throw new NotFoundException("Cars not exist");
 
-            if (isAvailable != null) 
+            if (isAvailable != null)
             {
-                carsDtos =(List<CarDto>) GetByAvailable((bool)isAvailable,carsDtos);
+                carsDtos = (List<CarDto>)GetByAvailable((bool)isAvailable, carsDtos);
             }
             if (countPlace != null)
             {
                 carsDtos = (List<CarDto>)GetByCountPlace((int)countPlace, carsDtos);
-            } 
+            }
             if (model != null)
             {
                 carsDtos = (List<CarDto>)GetByModel((string)model, carsDtos);
             }
 
-            if(carsDtos is null)
+            if (carsDtos is null)
                 throw new NotFoundException("Cars not found");
+
+            carsDtos.Sort();
+
             return carsDtos;
         }
-
         public IEnumerable<CarDto> GetByModel(string model, List<CarDto> carDtos)
         {
             List<CarDto> cars = new List<CarDto>();
 
             foreach (CarDto item in carDtos)
             {
-                if (item.Model.ToLower() == model.ToLower()) 
+                if (item.Model.ToLower() == model.ToLower())
                     cars.Add(item);
             }
             return cars;
         }
-        public IEnumerable<CarDto> GetByCountPlace( int countPlace, List<CarDto> carDtos)
-        {      
-
+        public IEnumerable<CarDto> GetByCountPlace(int countPlace, List<CarDto> carDtos)
+        {
             var carsSorted = FiltrCarsByCountPlace(carDtos, countPlace);
 
             if (carsSorted.Count() == 0)
                 throw new NotFoundException("Cars not found");
 
             return carsSorted;
-
         }
-
         public IEnumerable<CarDto> GetByAvailable(bool isAvailable, List<CarDto> carDtos)
         {
-           
-            
-            var carsSorted=FiltrCarsByAvailable(carDtos, isAvailable);
+            var carsSorted = FiltrCarsByAvailable(carDtos, isAvailable);
 
-            if (carsSorted.Count()==0)
+            if (carsSorted.Count() == 0)
                 throw new NotFoundException("Cars not found");
 
             return carsSorted;
-
-
         }
         public IEnumerable<CarDto> GetAll()
         {
@@ -155,30 +142,29 @@ namespace RentCarsAPI.Services
 
             var carsDtos = _mapper.Map<List<CarDto>>(cars);
 
-            
-
+            carsDtos.Sort();
 
             return carsDtos;
         }
-        private IEnumerable<CarDto> FiltrCarsByAvailable(IEnumerable<CarDto> cars , bool isAvailable)
+        private IEnumerable<CarDto> FiltrCarsByAvailable(IEnumerable<CarDto> cars, bool isAvailable)
         {
-            List<CarDto> carsDtos= new List<CarDto>();
+            List<CarDto> carsDtos = new List<CarDto>();
 
             foreach (CarDto car in cars)
             {
-                if(car.AvailableNow==isAvailable)
+                if (car.AvailableNow == isAvailable)
                     carsDtos.Add(car);
             }
 
             return carsDtos;
         }
-        private IEnumerable<CarDto> FiltrCarsByCountPlace(IEnumerable<CarDto> cars , int countPlace)
+        private IEnumerable<CarDto> FiltrCarsByCountPlace(IEnumerable<CarDto> cars, int countPlace)
         {
-            List<CarDto> carsDtos= new List<CarDto>();
+            List<CarDto> carsDtos = new List<CarDto>();
 
             foreach (CarDto car in cars)
             {
-                if(car.CountPlace==countPlace)
+                if (car.CountPlace == countPlace)
                     carsDtos.Add(car);
             }
 

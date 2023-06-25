@@ -13,8 +13,6 @@ namespace RentCarsAPI.Entities
         public string DrivingLicenseCategory { get; set; }
         public bool IsBlocked { get; set; }
         public string Comments { get; set; }
-
         public virtual List<Hire> Hires { get; set; }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentCarsAPI.Models.Car;
 using RentCarsAPI.Models.Client;
 using RentCarsAPI.Services;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace RentCarsAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute]int id)
+        public ActionResult Delete([FromRoute] int id)
         {
             _clientService.Delete(id);
 
@@ -26,7 +25,7 @@ namespace RentCarsAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update([FromRoute] int id, [FromBody] UpdateClientDto update )
+        public ActionResult Update([FromRoute] int id, [FromBody] UpdateClientDto update)
         {
             _clientService.Update(id, update);
 
@@ -36,7 +35,7 @@ namespace RentCarsAPI.Controllers
         [HttpPost]
         public ActionResult Create([FromBody] CreateClientDto dto)
         {
-            int newId=_clientService.Create(dto);
+            int newId = _clientService.Create(dto);
 
             return Created($"api/cars/{newId}", null);
         }
@@ -48,24 +47,20 @@ namespace RentCarsAPI.Controllers
             var clientsDto = _clientService.GetByBlocked(IsBlocked);
 
             return Ok(clientsDto);
-
-
         }
-
 
         [HttpGet]
         public ActionResult<IEnumerable<ClientDto>> GetAll()
         {
-            var clientDto=_clientService.GetAll();
+            var clientDto = _clientService.GetAll();
             return Ok(clientDto);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ClientDto> GetById([FromRoute]int id)
+        public ActionResult<ClientDto> GetById([FromRoute] int id)
         {
-            var clientDto = _clientService.GetById( id);
+            var clientDto = _clientService.GetById(id);
             return Ok(clientDto);
         }
-
     }
 }

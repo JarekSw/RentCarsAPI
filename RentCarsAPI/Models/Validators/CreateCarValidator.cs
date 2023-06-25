@@ -5,12 +5,13 @@ using System.Linq;
 
 namespace RentCarsAPI.Models.Validators
 {
-    public class CreateCarValidator:AbstractValidator<CreateCarDto>
+    public class CreateCarValidator : AbstractValidator<CreateCarDto>
     {
         public CreateCarValidator(RentDbContext dbContext)
         {
             RuleFor(c => c.AutomaticTransmission)
                 .NotEmpty();
+
             RuleFor(c => c.RegistrationNumber)
                 .NotEmpty()
                 .MinimumLength(5)
@@ -25,9 +26,11 @@ namespace RentCarsAPI.Models.Validators
                         context.AddFailure("RegistrationNumber", "That registrationNumber is taken");
                     }
                 });
+
             RuleFor(c => c.Mark)
                 .NotEmpty();
-            RuleFor(c=>c.Model)
+
+            RuleFor(c => c.Model)
                 .NotEmpty();
 
             RuleFor(c => c.VINNumer)
@@ -36,12 +39,9 @@ namespace RentCarsAPI.Models.Validators
 
             RuleFor(c => c.PriceForDay)
                 .NotEmpty();
-          
+
             RuleFor(c => c.CountPlace)
                 .NotEmpty();
-           
-                
-                
         }
     }
 }

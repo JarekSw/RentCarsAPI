@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RentCarsAPI.Models.Car
 {
-    public class CarDto
+    public class CarDto : IComparable
     {
         public int Id { get; set; }
         public string RegistrationNumber { get; set; }
@@ -18,5 +19,14 @@ namespace RentCarsAPI.Models.Car
         public bool AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            CarDto carDto = obj as CarDto;
+
+            if (carDto.RegistrationNumber.CompareTo(RegistrationNumber) == 1)
+                return -1;
+            return 1;
+        }
     }
 }

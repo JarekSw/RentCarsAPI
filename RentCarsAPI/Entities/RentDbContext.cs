@@ -1,19 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Net;
-using System.Security.Policy;
 
 namespace RentCarsAPI.Entities
 {
-    public class RentDbContext:DbContext
+    public class RentDbContext : DbContext
     {
-        public RentDbContext(DbContextOptions<RentDbContext> options):base(options)
-        {
-            
-        }
+        public RentDbContext(DbContextOptions<RentDbContext> options) : base(options){}
         //private string _connectionString =
         //   "Server=(localdb)\\mssqllocaldb;Database=RentDb;Trusted_Connection=True;";
-
         public DbSet<Car> Cars { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Hire> Hires { get; set; }
@@ -68,15 +61,8 @@ namespace RentCarsAPI.Entities
             modelBuilder.Entity<Client>()
                 .Property(c => c.Comments)
                 .HasMaxLength(200);
-
-            //Pola tabeli Hire
-
-            //modelBuilder.Entity<Hire>()
-            //    .Property(h => h.Client)
-            //    .IsRequired();
-            //modelBuilder.Entity<Hire>()
-            //    .Property(h => h.Car)
-            //    .IsRequired();
+            
+            //pola tabeli hire
             modelBuilder.Entity<Hire>()
                 .Property(h => h.HireDate)
                 .IsRequired();
@@ -84,20 +70,16 @@ namespace RentCarsAPI.Entities
                 .Property(h => h.Comment)
                 .HasMaxLength(200);
             modelBuilder.Entity<Hire>()
-                .Property (h => h.ExpectedDateOfReturn)
-                .IsRequired ();
+                .Property(h => h.ExpectedDateOfReturn)
+                .IsRequired();
 
             //Pola tabeli User
-
             modelBuilder.Entity<User>()
                .Property(u => u.Email)
                .IsRequired();
             modelBuilder.Entity<User>()
                .Property(u => u.HashPassword)
                .IsRequired();
-
         }
-
-
     }
 }
