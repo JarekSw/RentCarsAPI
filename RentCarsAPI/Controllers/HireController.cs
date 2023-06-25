@@ -25,9 +25,9 @@ namespace RentCarsAPI.Controllers
         }
 
         [HttpGet("filtr")]
-        public ActionResult<IEnumerable<HireDto>> GetByFiltr([FromHeader] bool? isFinished, [FromHeader] int? clientId, [FromHeader] int? carId)
+        public ActionResult<IEnumerable<HireDto>> GetByFiltr([FromHeader] bool? isFinished, [FromHeader] int? clientId, [FromHeader] int? carId, [FromHeader] HireStatus? hireStatus )
         {
-            var hireDtos = _hireService.GetByFiltr(isFinished, clientId, carId);
+            var hireDtos = _hireService.GetByFiltr(isFinished, clientId, carId, hireStatus);
 
             return Ok(hireDtos);
         }

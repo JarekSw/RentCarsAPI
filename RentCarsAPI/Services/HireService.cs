@@ -16,7 +16,7 @@ namespace RentCarsAPI.Services
         HireDto GetById(int id);
         int Create(CreateHireDto dto);
         double Finish(int id, FinishHireDto dateOfReturn);
-        List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId);
+        List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId, HireStatus? hireStatus);
         void Delete(int id);
     }
     public class HireService : IHireService
@@ -39,7 +39,7 @@ namespace RentCarsAPI.Services
             _dbContext.Hires.Remove(hire);
             _dbContext.SaveChanges();
         }
-        public List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId)
+        public List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId, HireStatus? hireStatus)
         {
             var hires = _dbContext.Hires
                 .Include(h => h.Car)
@@ -61,7 +61,10 @@ namespace RentCarsAPI.Services
             {
                 hires = GetBycarId((int)carId, hires);
             }
-
+            if (hireStatus != null)
+            {
+                hires = GetByHireStatus((HireStatus)carId, hires);
+            }
             if (hires.Count == 0)
                 throw new NotFoundException("Hires with this filtr not found");
 
@@ -70,6 +73,18 @@ namespace RentCarsAPI.Services
             hireDtos.Sort();
 
             return hireDtos;
+        }
+        public List<Hire> GetByHireStatus(HireStatus hireStatus, List<Hire> hires)
+        {
+            List<Hire> result = new List<Hire>();
+
+            foreach (var hire in hires)
+            {
+                var hireDto=_mapper.Map<HireDto>(hire);
+                if (hireDto.Status==hireStatus)
+                    result.Add(hire);
+            }
+            return result;
         }
         public List<Hire> GetBycarId(int carId, List<Hire> hires)
         {
