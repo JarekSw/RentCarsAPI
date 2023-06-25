@@ -15,7 +15,7 @@ namespace RentCarsAPI.Models.Car
         public int CountPlace { get; set; }
         public string Category { get; set; }
         public bool EfficientNow { get; set; }
-        [Required]
+      
         public bool AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }

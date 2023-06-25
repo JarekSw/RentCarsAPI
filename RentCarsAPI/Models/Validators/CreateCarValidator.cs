@@ -9,8 +9,6 @@ namespace RentCarsAPI.Models.Validators
     {
         public CreateCarValidator(RentDbContext dbContext)
         {
-            RuleFor(c => c.AutomaticTransmission)
-                .NotEmpty();
 
             RuleFor(c => c.RegistrationNumber)
                 .NotEmpty()

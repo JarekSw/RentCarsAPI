@@ -154,7 +154,7 @@ namespace RentCarsAPI.Services
             hireEntities.Client = _dbContext.Clients.FirstOrDefault(c => c.Id == hireEntities.ClientId);
 
             var car = _dbContext.Cars.FirstOrDefault(c => c.Id == dto.CarId);
-            car.EfficientNow = false;
+            car.AvailableNow = false;
 
             _dbContext.Hires.Add(hireEntities);
             _dbContext.SaveChanges();

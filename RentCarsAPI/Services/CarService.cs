@@ -50,6 +50,8 @@ namespace RentCarsAPI.Services
                 car.RegistrationNumber = (string)dto.RegistrationNumber;
             if (dto.EfficientNow != null)
                 car.EfficientNow = (bool)dto.EfficientNow;
+            if (dto.AvailableNow != null)
+                car.AvailableNow = (bool)dto.AvailableNow;
             if (dto.Comments != null)
                 car.Comments = (string)dto.Comments;
 

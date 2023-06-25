@@ -31,7 +31,7 @@ namespace RentCarsAPI.Models.Hire
         //refaktor
         public HireStatus Status { get; set; }
         //
-
+       
         public int CompareTo(object obj)
         {
             HireDto hireDto = obj as HireDto;
