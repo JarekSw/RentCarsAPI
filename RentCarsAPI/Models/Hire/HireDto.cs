@@ -3,9 +3,9 @@
 //refaktor
 public enum HireStatus
 {
-    zakonczony, // 0
-    aktywny, // 1
-    opozniony //2
+    aktywny = 0,
+    zakonczony = 1,
+    opozniony = -1 
 }
 //
 
