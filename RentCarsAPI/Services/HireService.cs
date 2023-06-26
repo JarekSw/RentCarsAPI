@@ -196,6 +196,7 @@ namespace RentCarsAPI.Services
                 .Include(h => h.Car)
                 .Include(h => h.Client)
                 .ToList();
+            DateTime d= DateTime.Today;
 
             if (hires is null)
                 throw new NotFoundException("Hires not found");

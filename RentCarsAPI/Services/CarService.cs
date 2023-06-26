@@ -34,6 +34,11 @@ namespace RentCarsAPI.Services
             if (car is null)
                 throw new NotFoundException("Cars not found");
 
+
+            if(_dbContext.Hires.FirstOrDefault(h => h.CarId == id&&h.DateOfReturn==null)!=null)
+                throw new NotFoundException("Cars is on active hire");
+
+
             _dbContext.Remove(car);
             _dbContext.SaveChanges();
         }

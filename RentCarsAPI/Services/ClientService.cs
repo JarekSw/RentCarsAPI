@@ -35,6 +35,9 @@ namespace RentCarsAPI.Services
             if (client is null)
                 throw new NotFoundException("Client not found");
 
+            if( _dbContext.Hires.FirstOrDefault(x => x.ClientId == id && x.DateOfReturn == null)!=null)
+                throw new NotFoundException("Client have active hire");
+
             _dbContext.Clients.Remove(client);
             _dbContext.SaveChanges();
         }

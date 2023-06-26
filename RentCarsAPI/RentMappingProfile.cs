@@ -37,9 +37,13 @@ namespace RentCarsAPI
         public HireStatus test(Hire hire)
         {
             if(hire.DateOfReturn==null)
+            {
+                if (DateTime.Now > hire.ExpectedDateOfReturn)
+                    return HireStatus.opozniony;
                 return HireStatus.aktywny;
-            if (DateTime.Today> hire.ExpectedDateOfReturn && hire.DateOfReturn==null)
-                return HireStatus.opozniony;
+            }
+                
+            
             return HireStatus.zakonczony;
         }
     }
