@@ -5,6 +5,7 @@ using RentCarsAPI.Models.Client;
 using RentCarsAPI.Models.Hire;
 using RentCarsAPI.Models.User;
 using RentCarsAPI.Services;
+using System;
 
 namespace RentCarsAPI
 {
@@ -37,9 +38,9 @@ namespace RentCarsAPI
         {
             if(hire.DateOfReturn==null)
                 return HireStatus.aktywny;
-            if (hire.DateOfReturn <= hire.ExpectedDateOfReturn)
-                return HireStatus.zakonczony;
-            return HireStatus.opozniony;
+            if (DateTime.Today> hire.ExpectedDateOfReturn && hire.DateOfReturn==null)
+                return HireStatus.opozniony;
+            return HireStatus.zakonczony;
         }
     }
 }
