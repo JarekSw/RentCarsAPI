@@ -30,7 +30,10 @@ namespace RentCarsAPI.Services
             if (user is null)
                 throw new NotFoundException("User not found");
 
-            user.HashPassword = userDto.HashPassword;
+            if(userDto!=null)
+                user.HashPassword = userDto.HashPassword;
+            if(user.Email!=null)
+                user.Email = userDto.Email;
 
             _dbContext.SaveChanges();
         }

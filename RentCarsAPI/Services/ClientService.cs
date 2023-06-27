@@ -45,11 +45,26 @@ namespace RentCarsAPI.Services
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == id);
 
+
+        //    public string? FirstName { get; set; }
+        //public string? LastName { get; set; }
+        //public string? PESELOrPassportNumber { get; set; }
+        //public string? email { get; set; }
+        //public string? PhoneNumber { get; set; }
+        //public string? DrivingLicenseCategory { get; set; }
+        //public bool? IsBlocked { get; set; }
+        //public string? Comments { get; set; }
+
+
             if (client is null)
                 throw new NotFoundException("Client not found");
 
+            if (update.FirstName != null)
+                client.FirstName = update.FirstName;
             if (update.LastName != null)
                 client.LastName = update.LastName;
+            if (update.PESELOrPassportNumber != null)
+                client.PESELOrPassportNumber = update.PESELOrPassportNumber;
             if (update.email != null)
                 client.email = update.email;
             if (update.PhoneNumber != null)

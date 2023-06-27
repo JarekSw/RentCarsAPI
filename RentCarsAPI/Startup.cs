@@ -45,6 +45,9 @@ namespace RentCarsAPI
             services.AddScoped<IValidator<CreateClientDto>, CreateClientValidator>();
             services.AddScoped<IValidator<CreateUserDto>, CreateUserValidator>();
             services.AddScoped<IValidator<CreateHireDto>, CreateHireValidator>();
+            services.AddScoped<IValidator<UpdateHireDto>, UpdateHireValidator>();
+            services.AddScoped<IValidator<UpdateCarDto>, UpdateCarValidator>();
+            services.AddScoped<IValidator<UpdateClientDto>, UpdateClientValidator>();
             services.AddSwaggerGen();
             services.AddCors(options =>
             {

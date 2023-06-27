@@ -35,7 +35,7 @@ namespace RentCarsAPI.Services
                 throw new NotFoundException("Cars not found");
 
 
-            if(_dbContext.Hires.FirstOrDefault(h => h.CarId == id&&h.DateOfReturn==null)!=null)
+            if (_dbContext.Hires.FirstOrDefault(h => h.CarId == id && h.DateOfReturn == null) != null) 
                 throw new NotFoundException("Cars is on active hire");
 
 
@@ -46,9 +46,37 @@ namespace RentCarsAPI.Services
         {
             var car = _dbContext.Cars.FirstOrDefault(c => c.Id == id);
 
+            //    public string? RegistrationNumber { get; set; }
+            //public string? VINNumer { get; set; }
+            //public string? Mark { get; set; }
+            //public string? Model { get; set; }
+            //public bool? AutomaticTransmission { get; set; }
+            //public double? Horsepower { get; set; }
+            //public int? CountPlace { get; set; }
+            //public string? Category { get; set; }
+            //public bool? EfficientNow { get; set; } //Czy jest sprawne
+            //public bool? AvailableNow { get; set; }
+            //public double? PriceForDay { get; set; }
+            //public string? Comments { get; set; }
+
+
             if (car is null)
                 throw new NotFoundException("Cars not found");
 
+            if(dto.VINNumer!=null)
+                car.VINNumer = (string) dto.VINNumer;
+            if (dto.Mark != null)
+                car.Mark = (string)dto.Mark;
+            if (dto.Model != null)
+                car.Model = (string)dto.Model;
+            if (dto.AutomaticTransmission != null)
+                car.AutomaticTransmission = (bool)dto.AutomaticTransmission;
+            if (dto.Horsepower != null)
+                car.Horsepower = (double)dto.Horsepower;
+            if (dto.CountPlace != null)
+                car.CountPlace = (int)dto.CountPlace;
+            if (dto.Category != null)
+                car.Category = (string)dto.Category;
             if (dto.PriceForDay != null)
                 car.PriceForDay = (double)dto.PriceForDay;
             if (dto.RegistrationNumber != null)

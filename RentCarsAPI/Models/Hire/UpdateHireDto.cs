@@ -4,7 +4,12 @@ namespace RentCarsAPI.Models.Hire
 {
     public class UpdateHireDto
     {
-        public DateTime? DateOfReturn { get; set; }
+
+        public int? CarId { get; set; }
+        public int? ClientId { get; set; }
+        public DateTime? HireDate { get; set; } // data wyporzyczenia
+        public DateTime? ExpectedDateOfReturn { get; set; } //przewidywana data zwrotu 
+        public DateTime? DateOfReturn { get; set; } //data zwrotu 
         public string? Comment { get; set; }
     }
 }

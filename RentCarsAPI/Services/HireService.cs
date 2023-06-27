@@ -132,7 +132,7 @@ namespace RentCarsAPI.Services
             var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == id);
             hire.DateOfReturn = date.DateOfReturn;
             
-            _dbContext.Cars.FirstOrDefault(c => c.Id == hire.CarId).EfficientNow = true;
+            _dbContext.Cars.FirstOrDefault(c => c.Id == hire.CarId).AvailableNow = true;
             _dbContext.SaveChanges();
 
             return CalculatePrice(hire);
@@ -145,8 +145,9 @@ namespace RentCarsAPI.Services
                 throw new NotFoundException("Bad hire or date of return");
 
             var hireEntities = _mapper.Map<Hire>(dto);
-
+            hireEntities.Car = new Car();
             hireEntities.Car = _dbContext.Cars.FirstOrDefault(c => c.Id == hireEntities.CarId);
+            hireEntities.Client = new Client();
             hireEntities.Client = _dbContext.Clients.FirstOrDefault(c => c.Id == hireEntities.ClientId);
 
             var car = _dbContext.Cars.FirstOrDefault(c => c.Id == dto.CarId);
@@ -159,20 +160,81 @@ namespace RentCarsAPI.Services
         }
         public void Update(int HireId, UpdateHireDto dto)
         {
-            var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == HireId);
+            var hire = _dbContext.Hires
+                .Include(h=>h.Car)
+                .Include(h=>h.Client)
+                .FirstOrDefault(h => h.Id == HireId);
 
             if (hire is null)
             {
                 throw new NotFoundException("Hire not found");
             }
 
+
+
+            //    public int? CarId { get; set; }
+            //public int? ClientId { get; set; }
+            //public DateTime? HireDate { get; set; } // data wyporzyczenia
+            //public DateTime? ExpectedDateOfReturn { get; set; } //przewidywana data zwrotu 
+            //public DateTime? DateOfReturn { get; set; } //data zwrotu 
+            //public string? Comment { get; set; }
+
+            if(dto.HireDate!=null)
+            {
+                if(dto.HireDate>hire.DateOfReturn||dto.HireDate>hire.ExpectedDateOfReturn)
+                    throw new NotFoundException("Bad date, date of return or expected return is earlier than this date!");
+                hire.HireDate = (DateTime)dto.HireDate;
+            }
+            if (dto.ExpectedDateOfReturn != null)
+            {
+                if (dto.ExpectedDateOfReturn < hire.HireDate)
+                    throw new NotFoundException("Bad date, date is earlier than date of hire!");
+                hire.ExpectedDateOfReturn = (DateTime)dto.ExpectedDateOfReturn;
+            }
             if (dto.DateOfReturn != null)
             {
-                hire.DateOfReturn = (System.DateTime)dto.DateOfReturn;
+                if (dto.DateOfReturn < hire.HireDate)
+                    throw new NotFoundException("Bad date, date is earlier than date of hire!");
+                hire.DateOfReturn = dto.DateOfReturn;
             }
+            if (dto.ClientId!= null)
+            {
+                if(_dbContext.Clients.FirstOrDefault(x=>x.Id==dto.ClientId)==null)
+                    throw new NotFoundException("Client not exist!");
+
+                hire.ClientId=(int)dto.ClientId;
+                hire.Client = _dbContext.Clients.FirstOrDefault(c => c.Id == hire.ClientId);
+            }
+
+            if (dto.CarId != null)
+            {
+                var car = _dbContext.Cars.FirstOrDefault(c => c.Id == dto.CarId);
+                if (car is null)
+                    throw new NotFoundException("Car not exist!");
+
+                if (_mapper.Map<HireDto>(hire).Status != HireStatus.zakonczony)
+                {
+                    
+                    
+                    if(car.AvailableNow==false)
+                        throw new NotFoundException("Hire can not edit, car is not available!");
+
+                    _dbContext.Cars.FirstOrDefault(c => c.Id == hire.CarId).AvailableNow = true;
+                    _dbContext.Cars.FirstOrDefault(c=>c.Id==dto.CarId).AvailableNow = false;
+                }
+               
+                hire.CarId=(int)dto.CarId; 
+            
+                hire.Car = car;
+            }
+
+            
 
             if (dto.Comment != null)
                 hire.Comment = dto.Comment;
+
+            if (hire.DateOfReturn < hire.HireDate || hire.ExpectedDateOfReturn < hire.HireDate)
+                throw new NotFoundException("Wrong the one of date!");
 
             _dbContext.SaveChanges();
         }
