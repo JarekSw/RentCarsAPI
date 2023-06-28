@@ -29,6 +29,8 @@ namespace RentCarsAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _clientService.Update(id, update);
 
             return Ok();

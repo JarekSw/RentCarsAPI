@@ -12,6 +12,7 @@ namespace RentCarsAPI.Models.Car
         public bool AutomaticTransmission { get; set; }
         public double Horsepower { get; set; }
         public int CountPlace { get; set; }
+     
         public string Category { get; set; }
         [Required]
         public bool EfficientNow { get; set; } //Czy jest sprawne

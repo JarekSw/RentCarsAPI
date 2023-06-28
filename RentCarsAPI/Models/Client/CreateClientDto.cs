@@ -6,6 +6,7 @@ namespace RentCarsAPI.Models.Client
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [RegularExpression(@"^\d{11}$|^[A-Za-z]{2}\d{7}$")]
         public string PESELOrPassportNumber { get; set; }
         [EmailAddress]
         public string email { get; set; }
