@@ -40,6 +40,10 @@ namespace RentCarsAPI.Models.Validators
 
             RuleFor(c => c.CountPlace)
                 .NotEmpty();
+
+            RuleFor(c => c.EfficientNow)
+                .NotNull();
+                
         }
     }
 }

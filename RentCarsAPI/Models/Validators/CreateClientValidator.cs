@@ -16,10 +16,12 @@ namespace RentCarsAPI.Models.Validators
                 .NotEmpty();
 
             RuleFor(c => c.PESELOrPassportNumber)
-                .NotEmpty();
+                .NotEmpty()
+                .Length(17);
 
             RuleFor(c => c.PhoneNumber)
-                .NotEmpty();
+                .NotEmpty()
+                .Length(7,12);
 
             RuleFor(c => c.email)
                 .NotEmpty();
