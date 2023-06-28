@@ -64,7 +64,12 @@ namespace RentCarsAPI.Services
             if (update.LastName != null)
                 client.LastName = update.LastName;
             if (update.PESELOrPassportNumber != null)
+            {
+                if(_dbContext.Clients.FirstOrDefault(c=>c.PESELOrPassportNumber==(string)update.PESELOrPassportNumber&&client.PESELOrPassportNumber!=update.PESELOrPassportNumber )!=null)
+                    throw new NotFoundException("PESEL or pasport number is taken");
                 client.PESELOrPassportNumber = update.PESELOrPassportNumber;
+            }
+                
             if (update.email != null)
                 client.email = update.email;
             if (update.PhoneNumber != null)
