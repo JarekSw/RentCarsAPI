@@ -2,6 +2,7 @@
 
 namespace RentCarsAPI.Models.Car
 {
+    
     public class UpdateCarDto
     {
         public string? RegistrationNumber { get; set; }
@@ -12,6 +13,7 @@ namespace RentCarsAPI.Models.Car
         public double? Horsepower { get; set; }
         public int? CountPlace { get; set; }
         public string? Category { get; set; }
+
         public bool? EfficientNow { get; set; } //Czy jest sprawne
         public bool? AvailableNow { get; set; }
         public double? PriceForDay { get; set; }

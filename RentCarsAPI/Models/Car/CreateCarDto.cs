@@ -8,14 +8,14 @@ namespace RentCarsAPI.Models.Car
         public string VINNumer { get; set; }
         public string Mark { get; set; }
         public string Model { get; set; }
-
+        [Required]
         public bool AutomaticTransmission { get; set; }
         public double Horsepower { get; set; }
         public int CountPlace { get; set; }
         public string Category { get; set; }
-
+        [Required]
         public bool EfficientNow { get; set; } //Czy jest sprawne
-
+        [Required]
         public bool AvailableNow { get; set; }
         public double PriceForDay { get; set; }
         public string Comments { get; set; }

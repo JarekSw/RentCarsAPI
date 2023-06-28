@@ -27,6 +27,8 @@ namespace RentCarsAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Update([FromRoute] int id, [FromBody] UpdateClientDto update)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _clientService.Update(id, update);
 
             return Ok();
@@ -35,6 +37,8 @@ namespace RentCarsAPI.Controllers
         [HttpPost]
         public ActionResult Create([FromBody] CreateClientDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             int newId = _clientService.Create(dto);
 
             return Created($"api/cars/{newId}", null);
