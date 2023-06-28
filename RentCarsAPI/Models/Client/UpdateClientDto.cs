@@ -13,7 +13,7 @@ namespace RentCarsAPI.Models.Client
         public string? email { get; set; }
         [Phone]
         public string? PhoneNumber { get; set; }
-        [RegularExpression(@"^[ABCD]$")]
+
         public string? DrivingLicenseCategory { get; set; }
         public bool? IsBlocked { get; set; }
         public string? Comments { get; set; }
