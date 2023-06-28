@@ -16,7 +16,7 @@ namespace RentCarsAPI.Services
         HireDto GetById(int id);
         int Create(CreateHireDto dto);
         double Finish(int id, FinishHireDto dateOfReturn);
-        List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId, HireStatus? hireStatus);
+        List<HireDto> GetByFiltr( int? clientId, int? carId, HireStatus? hireStatus);
         void Delete(int id);
     }
     public class HireService : IHireService
@@ -39,7 +39,7 @@ namespace RentCarsAPI.Services
             _dbContext.Hires.Remove(hire);
             _dbContext.SaveChanges();
         }
-        public List<HireDto> GetByFiltr(bool? isFinished, int? clientId, int? carId, HireStatus? hireStatus)
+        public List<HireDto> GetByFiltr(int? clientId, int? carId, HireStatus? hireStatus)
         {
             var hires = _dbContext.Hires
                 .Include(h => h.Car)
@@ -49,10 +49,7 @@ namespace RentCarsAPI.Services
             if (hires is null)
                 throw new NotFoundException("Hires not exist");
 
-            if (isFinished != null)
-            {
-                hires = GetByIsFinished((bool)isFinished, hires);
-            }
+
             if (clientId != null)
             {
                 hires = GetByClientId((int)clientId, hires);
@@ -108,25 +105,7 @@ namespace RentCarsAPI.Services
             }
             return result;
         }
-        public List<Hire> GetByIsFinished(bool isFinished, List<Hire> hires)
-        {
-            List<Hire> result = new List<Hire>();
-
-            foreach (var hire in hires)
-            {
-                if (hire.DateOfReturn == null)
-                {
-                    if (isFinished == false)
-                        result.Add(hire);
-                }
-                else
-                {
-                    if (isFinished == true)
-                        result.Add(hire);
-                }
-            }
-            return result;
-        }
+      
         public double Finish(int id, FinishHireDto date)
         {
             var hire = _dbContext.Hires.FirstOrDefault(h => h.Id == id);
