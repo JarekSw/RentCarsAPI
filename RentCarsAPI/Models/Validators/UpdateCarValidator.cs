@@ -14,15 +14,6 @@ namespace RentCarsAPI.Models.Validators
                 .MinimumLength(5)
                 .MaximumLength(7);
 
-            RuleFor(c => c.RegistrationNumber)
-                .Custom((value, context) =>
-                {
-                    var registrationNumberInUse = dbContext.Cars.Any(c => c.RegistrationNumber.Equals(value));
-                    if (registrationNumberInUse)
-                    {
-                        context.AddFailure("RegistrationNumber", "That registrationNumber is taken");
-                    }
-                });
 
 
             RuleFor(c => c.VINNumer)

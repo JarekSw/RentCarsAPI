@@ -80,7 +80,15 @@ namespace RentCarsAPI.Services
             if (dto.PriceForDay != null)
                 car.PriceForDay = (double)dto.PriceForDay;
             if (dto.RegistrationNumber != null)
+            {
+                
+
+                if(_dbContext.Cars.FirstOrDefault(c=>c.RegistrationNumber==dto.RegistrationNumber)!=null&&
+                    car.RegistrationNumber!=dto.RegistrationNumber)
+                    throw new NotFoundException("Registration number is taken");
                 car.RegistrationNumber = (string)dto.RegistrationNumber;
+            }
+                
             if (dto.EfficientNow != null)
                 car.EfficientNow = (bool)dto.EfficientNow;
             if (dto.AvailableNow != null)
