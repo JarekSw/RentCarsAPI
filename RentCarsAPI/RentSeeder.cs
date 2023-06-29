@@ -18,38 +18,38 @@ namespace RentCarsAPI
         {
             if (_dbContext.Database.CanConnect())
             {
+                ;
+            //    var pandingMigrations = _dbContext.Database.GetPendingMigrations();
 
-                var pandingMigrations = _dbContext.Database.GetPendingMigrations();
+            //    if (pandingMigrations != null && pandingMigrations.Any())
+            //    {
+            //        _dbContext.Database.Migrate();
+            //    }
 
-                if (pandingMigrations != null && pandingMigrations.Any())
-                {
-                    _dbContext.Database.Migrate();
-                }
-
-                if (!_dbContext.Clients.Any())
-                {
-                    var roles = GetClients();
-                    _dbContext.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
-                if (!_dbContext.Cars.Any())
-                {
-                    var roles = GetCars();
-                    _dbContext.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
-                if (!_dbContext.Hires.Any())
-                {
-                    var roles = GetHires();
-                    _dbContext.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
-                if (!_dbContext.Users.Any())
-                {
-                    var roles = GetUser();
-                    _dbContext.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
+            //    if (!_dbContext.Clients.Any())
+            //    {
+            //        var roles = GetClients();
+            //        _dbContext.AddRange(roles);
+            //        _dbContext.SaveChanges();
+            //    }
+            //    if (!_dbContext.Cars.Any())
+            //    {
+            //        var roles = GetCars();
+            //        _dbContext.AddRange(roles);
+            //        _dbContext.SaveChanges();
+            //    }
+            //    if (!_dbContext.Hires.Any())
+            //    {
+            //        var roles = GetHires();
+            //        _dbContext.AddRange(roles);
+            //        _dbContext.SaveChanges();
+            //    }
+            //    if (!_dbContext.Users.Any())
+            //    {
+            //        var roles = GetUser();
+            //        _dbContext.AddRange(roles);
+            //        _dbContext.SaveChanges();
+            //    }
             }
         }
         private User GetUser()

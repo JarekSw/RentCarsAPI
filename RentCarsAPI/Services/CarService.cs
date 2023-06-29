@@ -67,7 +67,7 @@ namespace RentCarsAPI.Services
             {
                 if (_dbContext.Cars.FirstOrDefault(c => c.VINNumer == dto.VINNumer) != null &&
                     car.VINNumer != dto.VINNumer)
-                    throw new NotFoundException("Registration number is taken");
+                    throw new NotFoundException("VIN number is taken");
                 car.VINNumer = (string)dto.VINNumer;
             }
                 
