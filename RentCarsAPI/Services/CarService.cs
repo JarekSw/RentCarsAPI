@@ -64,7 +64,13 @@ namespace RentCarsAPI.Services
                 throw new NotFoundException("Cars not found");
 
             if(dto.VINNumer!=null)
-                car.VINNumer = (string) dto.VINNumer;
+            {
+                if (_dbContext.Cars.FirstOrDefault(c => c.VINNumer == dto.VINNumer) != null &&
+                    car.VINNumer != dto.VINNumer)
+                    throw new NotFoundException("Registration number is taken");
+                car.VINNumer = (string)dto.VINNumer;
+            }
+                
             if (dto.Mark != null)
                 car.Mark = (string)dto.Mark;
             if (dto.Model != null)
